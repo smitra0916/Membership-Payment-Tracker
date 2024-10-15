@@ -1,22 +1,21 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  db:
-    image: postgres:14
-    restart: always
-    environment:
-      POSTGRES_USER: yoyo123
-      POSTGRES_PASSWORD: 123123  
-      POSTGRES_DB: postgres_avijoy
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
-  web:
+  backend:
     build: .
     ports:
-      - "5000:5000"
+      - "5000:5000"  # Change port if needed
+    volumes:
+      - .:/app  # Optional: Mount source code for live updates
     depends_on:
-      - db
+      - database
+
+  database:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: password  # Change password
+    volumes:
+      - payments_db:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  payments_db:
